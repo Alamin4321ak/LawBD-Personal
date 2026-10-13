@@ -1,0 +1,3548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LawBD - Comprehensive Bangladesh Legal Resource & Lawyer Consultation Booking System. Explore 20 key Bangladesh acts, 20 verified legal practice areas, and book instant legal consultations.">
+  <meta name="keywords" content="Bangladesh Law, bdlaws, Bangladesh Supreme Court, Lawyer Booking Bangladesh, Legal Aid, Penal Code 1860, CrPC, CPC">
+  <meta name="author" content="CSE Capstone Project - Bangladesh Law Portal">
+  <title>LawBD — Bangladesh Law & Lawyer Consultation Portal</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       CSS Variables & Design Tokens (Dark / Light Theme)
+       ========================================================================== */
+    :root {
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-bn: 'Noto Serif Bengali', serif;
+
+      /* Primary Palette: Judicial Emerald & Deep Slate */
+      --primary: #047857;
+      --primary-hover: #065f46;
+      --primary-light: #ecfdf5;
+      --primary-glow: rgba(4, 120, 87, 0.25);
+      
+      --gold: #d97706;
+      --gold-light: #fef3c7;
+      --crimson: #dc2626;
+
+      /* Light Theme Colors */
+      --bg-body: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-surface-alt: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f8fafc;
+      --border-color: #e2e8f0;
+      --border-focus: #047857;
+      
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+      --text-inverse: #ffffff;
+
+      --badge-bg: #e2e8f0;
+      --badge-text: #334155;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04);
+      --shadow-lg: 0 12px 24px -4px rgba(0,0,0,0.08), 0 4px 10px -2px rgba(0,0,0,0.03);
+      --shadow-xl: 0 20px 30px -5px rgba(0,0,0,0.12);
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+
+      --transition-fast: 0.15s ease;
+      --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg-body: #0b1120;
+      --bg-surface: #0f172a;
+      --bg-surface-alt: #1e293b;
+      --bg-card: #131d33;
+      --bg-card-hover: #1a2744;
+      --border-color: #1e293b;
+      --border-focus: #10b981;
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --text-inverse: #ffffff;
+
+      --badge-bg: #1e293b;
+      --badge-text: #cbd5e1;
+
+      --primary: #10b981;
+      --primary-hover: #059669;
+      --primary-light: rgba(16, 185, 129, 0.15);
+      --primary-glow: rgba(16, 185, 129, 0.3);
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+      --shadow-lg: 0 12px 28px rgba(0,0,0,0.6);
+      --shadow-xl: 0 20px 35px rgba(0,0,0,0.7);
+    }
+
+    /* ==========================================================================
+       Reset & Base Styles
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+      transition: background-color var(--transition-normal), color var(--transition-normal);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      color: inherit;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ==========================================================================
+       Header & Navigation
+       ========================================================================== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg-surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      transition: background var(--transition-normal), border-color var(--transition-normal);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 4.5rem;
+      gap: 1.5rem;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-logo:hover {
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), #064e3b);
+      color: #ffffff;
+      border-radius: var(--radius-md);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 4px 10px var(--primary-glow);
+    }
+
+    .brand-text h1 {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--text-main);
+    }
+
+    .brand-text span {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--primary);
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.925rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 0.4rem 0.6rem;
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-fast);
+      text-decoration: none;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface-alt);
+      color: var(--text-main);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-icon:hover {
+      background: var(--border-color);
+      border-color: var(--text-muted);
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: #ffffff !important;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px var(--primary-glow);
+      transition: all var(--transition-fast);
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px var(--primary-glow);
+      text-decoration: none;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      background: var(--bg-surface-alt);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      background: var(--border-color);
+      text-decoration: none;
+    }
+
+    .badge-count {
+      background: var(--crimson);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: var(--radius-full);
+      margin-left: 4px;
+    }
+
+    /* Mobile Menu Toggle */
+    .mobile-menu-btn {
+      display: none;
+    }
+
+    /* ==========================================================================
+       Hero Section & Notice Banner
+       ========================================================================== */
+    .notice-bar {
+      background: linear-gradient(90deg, #064e3b, #065f46);
+      color: #ecfdf5;
+      font-size: 0.825rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .notice-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .notice-helpline {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-weight: 500;
+    }
+    .notice-helpline strong {
+      color: #fde68a;
+    }
+
+    .hero-section {
+      position: relative;
+      background: linear-gradient(135deg, rgba(4, 120, 87, 0.08) 0%, rgba(15, 23, 42, 0.04) 100%);
+      padding: 4rem 0 3.5rem;
+      border-bottom: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-bottom: 1.25rem;
+      border: 1px solid rgba(4, 120, 87, 0.2);
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: 2.85rem;
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, var(--primary), #059669);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 620px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .stat-item h3 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-item p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+
+    .hero-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--gold-light);
+      color: var(--gold);
+      display: grid;
+      place-items: center;
+    }
+
+    .hero-card h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .hero-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .quick-search-box {
+      margin-top: 1rem;
+    }
+
+    .search-input-group {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input-group svg {
+      position: absolute;
+      left: 1rem;
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+
+    .search-input-group input {
+      width: 100%;
+      padding: 0.85rem 1rem 0.85rem 2.85rem;
+      border: 1.5px solid var(--border-color);
+      background: var(--bg-surface-alt);
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      transition: all var(--transition-fast);
+    }
+
+    .search-input-group input:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      background: var(--bg-surface);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .quick-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.85rem;
+    }
+
+    .tag-btn {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.65rem;
+      border-radius: var(--radius-full);
+      background: var(--bg-surface-alt);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .tag-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    /* ==========================================================================
+       Section Styling & Tabs
+       ========================================================================== */
+    .section-padding {
+      padding: 4rem 0;
+    }
+
+    .section-header {
+      margin-bottom: 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .section-title-wrap {
+      max-width: 650px;
+    }
+
+    .section-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .section-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    /* Controls Bar: Filters & Search */
+    .controls-bar {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .controls-row-top {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .controls-search {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .controls-select-wrap {
+      min-width: 180px;
+    }
+
+    .custom-select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .custom-select:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      background: var(--bg-surface);
+    }
+
+    .category-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .pill-btn {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      background: var(--bg-surface-alt);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .pill-btn.active,
+    .pill-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    /* ==========================================================================
+       Laws Grid & Law Cards
+       ========================================================================== */
+    .laws-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .law-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all var(--transition-normal);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .law-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(4, 120, 87, 0.4);
+    }
+
+    .law-card-top {
+      margin-bottom: 1rem;
+    }
+
+    .law-meta-badges {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.85rem;
+    }
+
+    .law-badge-category {
+      font-size: 0.725rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-full);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .law-act-no {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    .law-card-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+    }
+
+    .law-card-bn {
+      font-family: var(--font-bn);
+      font-size: 0.95rem;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .law-card-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 1rem;
+    }
+
+    .law-key-provisions {
+      background: var(--bg-surface-alt);
+      border-radius: var(--radius-md);
+      padding: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--text-main);
+      margin-bottom: 1.25rem;
+      border-left: 3px solid var(--primary);
+    }
+
+    .law-key-provisions strong {
+      display: block;
+      color: var(--primary);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+
+    .law-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .law-link-official {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.825rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .law-link-official:hover {
+      text-decoration: underline;
+    }
+
+    .law-btn-bookmark {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.4rem 0.65rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.775rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all var(--transition-fast);
+    }
+    .law-btn-bookmark:hover,
+    .law-btn-bookmark.bookmarked {
+      color: var(--gold);
+      border-color: var(--gold);
+      background: var(--gold-light);
+    }
+
+    /* ==========================================================================
+       Lawyers Grid & Profiles
+       ========================================================================== */
+    .lawyers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .lawyer-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-normal);
+      position: relative;
+    }
+
+    .lawyer-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(4, 120, 87, 0.4);
+    }
+
+    .lawyer-header {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .lawyer-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+      font-size: 1.35rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      border: 2px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .lawyer-head-meta {
+      flex: 1;
+    }
+
+    .lawyer-name {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.25;
+      margin-bottom: 0.2rem;
+    }
+
+    .lawyer-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.45rem;
+      display: block;
+    }
+
+    .lawyer-badge-category {
+      display: inline-block;
+      font-size: 0.725rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .lawyer-details-list {
+      list-style: none;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0.75rem 0 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .lawyer-detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+
+    .lawyer-detail-item svg {
+      width: 16px;
+      height: 16px;
+      margin-top: 3px;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .lawyer-fee-box {
+      background: var(--bg-surface-alt);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      border: 1px dashed var(--border-color);
+    }
+
+    .fee-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .fee-amount {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .lawyer-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .btn-book-lawyer {
+      padding: 0.6rem 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-book-lawyer:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-view-profile {
+      padding: 0.6rem 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      background: var(--bg-surface-alt);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      text-align: center;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-view-profile:hover {
+      background: var(--border-color);
+    }
+
+    /* ==========================================================================
+       Booking Form Section
+       ========================================================================== */
+    .booking-section {
+      background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-body) 100%);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .booking-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 3rem;
+      align-items: flex-start;
+    }
+
+    .booking-info-panel {
+      position: sticky;
+      top: 6rem;
+    }
+
+    .booking-flow-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      margin-top: 1.5rem;
+    }
+
+    .flow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+
+    .flow-step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-full);
+      background: var(--primary);
+      color: white;
+      font-weight: 800;
+      font-size: 0.85rem;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .step-content h5 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .step-content p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .booking-form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .form-group-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 0.45rem;
+      color: var(--text-main);
+    }
+
+    .form-label span.req {
+      color: var(--crimson);
+      margin-left: 2px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1.5px solid var(--border-color);
+      background: var(--bg-surface-alt);
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      color: var(--text-main);
+      transition: all var(--transition-fast);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      background: var(--bg-surface);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .form-control.is-invalid {
+      border-color: var(--crimson);
+      background: #fef2f2;
+    }
+
+    .invalid-feedback {
+      display: none;
+      font-size: 0.775rem;
+      color: var(--crimson);
+      margin-top: 0.35rem;
+      font-weight: 600;
+    }
+
+    .form-control.is-invalid + .invalid-feedback {
+      display: block;
+    }
+
+    .consultation-type-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 0.45rem;
+    }
+
+    .type-radio-label {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.85rem 1rem;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background: var(--bg-surface-alt);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .type-radio-label input[type="radio"] {
+      accent-color: var(--primary);
+    }
+
+    .type-radio-label:hover,
+    .type-radio-label.checked {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .selected-lawyer-preview {
+      display: none;
+      background: var(--primary-light);
+      border: 1px solid rgba(4, 120, 87, 0.25);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1rem;
+      margin-top: 0.5rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .selected-lawyer-preview.active {
+      display: flex;
+    }
+
+    .disclaimer-cse-box {
+      background: var(--gold-light);
+      border-left: 4px solid var(--gold);
+      padding: 0.85rem 1rem;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      font-size: 0.8rem;
+      color: #78350f;
+      margin-top: 1.5rem;
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       Modals (Receipt, Lawyer Bio, Bookings Manager)
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: none;
+      place-items: center;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .modal-backdrop.active {
+      display: grid;
+    }
+
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      max-width: 600px;
+      width: 100%;
+      padding: 2rem;
+      box-shadow: var(--shadow-xl);
+      animation: modalSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .modal-box.modal-lg {
+      max-width: 800px;
+    }
+
+    @keyframes modalSlide {
+      from { opacity: 0; transform: translateY(20px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-full);
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all var(--transition-fast);
+    }
+    .modal-close-btn:hover {
+      background: var(--border-color);
+      color: var(--text-main);
+    }
+
+    /* Printable Consultation Receipt Slip */
+    .receipt-container {
+      border: 2px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      background: var(--bg-card);
+      margin: 1.25rem 0;
+    }
+
+    .receipt-header {
+      text-align: center;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1rem;
+    }
+
+    .receipt-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
+      background: var(--primary-light);
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .receipt-id {
+      font-family: monospace;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: 0.05em;
+    }
+
+    .receipt-details-table {
+      width: 100%;
+      font-size: 0.875rem;
+      border-collapse: collapse;
+    }
+
+    .receipt-details-table td {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .receipt-details-table td:first-child {
+      color: var(--text-muted);
+      font-weight: 600;
+      width: 40%;
+    }
+
+    .receipt-details-table td:last-child {
+      color: var(--text-main);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    /* ==========================================================================
+       CSE Legal Helper Tools (Court Fee & Emergency Helplines)
+       ========================================================================== */
+    .tools-section {
+      background: var(--bg-surface-alt);
+      padding: 3.5rem 0;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .tool-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .helpline-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .helpline-item:last-child {
+      border-bottom: none;
+    }
+
+    .helpline-tag {
+      font-weight: 700;
+      font-size: 0.875rem;
+      color: var(--text-main);
+    }
+
+    .helpline-num {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 800;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+    }
+
+    /* ==========================================================================
+       Footer
+       ========================================================================== */
+    .site-footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-color);
+      padding: 3.5rem 0 2rem;
+      margin-top: auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .footer-col h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .footer-col a {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .footer-col a:hover {
+      color: var(--primary);
+    }
+
+    .footer-bottom {
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.825rem;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       Print Styles
+       ========================================================================== */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #receiptPrintArea, #receiptPrintArea * {
+        visibility: visible;
+      }
+      #receiptPrintArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    /* ==========================================================================
+       Responsive Media Queries
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+      .booking-grid {
+        grid-template-columns: 1fr;
+      }
+      .booking-info-panel {
+        position: static;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-inner {
+        height: 4rem;
+      }
+      .nav-links {
+        display: none;
+      }
+      .nav-links.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--bg-surface);
+        padding: 1.25rem;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: var(--shadow-lg);
+      }
+      .mobile-menu-btn {
+        display: grid;
+      }
+      .hero-title {
+        font-size: 2.15rem;
+      }
+      .laws-grid, .lawyers-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-group-row {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Emergency Notice Bar -->
+  <div class="notice-bar">
+    <div class="container notice-inner">
+      <div class="notice-helpline">
+        <span>🇧🇩 Bangladesh Legal Helplines:</span>
+        <span>National Legal Aid: <strong>16450</strong> (Toll-Free)</span>
+        <span>Emergency Service: <strong>999</strong></span>
+        <span>Women & Child Helpline: <strong>109</strong></span>
+      </div>
+      <div>
+        <span style="opacity: 0.9;">CSE Final Project Prototype — Client-Side Architecture</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Sticky Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#home" class="brand-logo" id="brandLogo">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+            <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+            <path d="M7 21h10"/>
+            <path d="M12 3v18"/>
+            <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>LawBD</h1>
+          <span>AinSheba Portal • বাংলাদেশ আইন</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home" class="active">Home</a></li>
+          <li><a href="#laws-section">Bangladesh Laws (20)</a></li>
+          <li><a href="#lawyers-section">Lawyer Chambers (20)</a></li>
+          <li><a href="#booking-section">Book Consultation</a></li>
+          <li><a href="#tools-section">Legal Resources</a></li>
+        </ul>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button class="btn-icon" id="themeToggleBtn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+          <svg id="themeIconSun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+            <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+          </svg>
+          <svg id="themeIconMoon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        </button>
+
+        <!-- Saved Bookings Modal Trigger -->
+        <button class="btn-secondary" id="openBookingsBtn" title="View Saved Appointments">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+          </svg>
+          <span>My Consultations</span>
+          <span class="badge-count" id="bookingsCountBadge">0</span>
+        </button>
+
+        <!-- Quick Book CTA -->
+        <a href="#booking-section" class="btn-primary">
+          <span>Book Now</span>
+        </a>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="btn-icon mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Mobile Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="home">
+    <div class="container hero-grid">
+      <div>
+        <div class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+          </svg>
+          <span>Official Bangladesh Legal Codification & Chamber Index</span>
+        </div>
+        <h2 class="hero-title">
+          Know Your Legal Rights.<br>
+          Consult With <span>Supreme Court</span> & District Advocates.
+        </h2>
+        <p class="hero-subtitle">
+          An intuitive, comprehensive digital legal portal for citizens and practitioners in Bangladesh. Explore 20 key enacted statutory acts, connect with specialized chamber advocates, and schedule confidential legal consultations.
+        </p>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <h3 id="statLawsCount">20</h3>
+            <p>Codified Acts Indexed</p>
+          </div>
+          <div class="stat-item">
+            <h3 id="statLawyersCount">20</h3>
+            <p>Specialized Chambers</p>
+          </div>
+          <div class="stat-item">
+            <h3>100%</h3>
+            <p>Client Privacy & Open Laws</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Interactive Search Card -->
+      <div class="hero-card">
+        <div class="hero-card-header">
+          <div class="hero-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Quick Law & Chamber Lookup</h4>
+            <p>Find laws by section or search lawyers by legal practice</p>
+          </div>
+        </div>
+
+        <div class="quick-search-box">
+          <div class="search-input-group">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+            <input type="text" id="heroQuickSearchInput" placeholder="e.g., Cheque Dishonour, Cyber Law, Penal Code, Land...">
+          </div>
+
+          <div class="quick-tags">
+            <span style="font-size:0.75rem; color:var(--text-muted); padding-top:2px;">Trending:</span>
+            <button class="tag-btn" onclick="quickFilterAction('Criminal')">Penal Code</button>
+            <button class="tag-btn" onclick="quickFilterAction('Cyber')">Cyber Security</button>
+            <button class="tag-btn" onclick="quickFilterAction('Family')">Family & Custody</button>
+            <button class="tag-btn" onclick="quickFilterAction('Property')">Land Transfer</button>
+            <button class="tag-btn" onclick="quickFilterAction('Labor')">Labor Act 2006</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 1: 20 BANGLADESH LAWS
+       ========================================================================== -->
+  <section class="section-padding" id="laws-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-tag">Statutory Compendium</span>
+          <h2 class="section-title">20 Key Bangladesh Laws & Codifications</h2>
+          <p class="section-desc">
+            Essential legislative acts of Bangladesh, curated with simplified legal summaries, core punishable or procedural provisions, and verified links to the official Bangladesh Ministry of Law (bdlaws) repository.
+          </p>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-muted);">
+          Showing: <strong id="lawsFilteredCount" style="color:var(--primary);">20</strong> of 20 Acts
+        </div>
+      </div>
+
+      <!-- Controls: Search & Category Pills -->
+      <div class="controls-bar">
+        <div class="controls-row-top">
+          <div class="controls-search">
+            <div class="search-input-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+              </svg>
+              <input type="text" id="lawSearchInput" placeholder="Search laws by name, act number, keywords, or Bangla title...">
+            </div>
+          </div>
+          <div class="controls-select-wrap">
+            <select id="lawSortSelect" class="custom-select">
+              <option value="default">Sort: Chronological (Act Year)</option>
+              <option value="name-asc">Name (A to Z)</option>
+              <option value="name-desc">Name (Z to A)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Law Category Pills -->
+        <div class="category-pills" id="lawCategoryPills">
+          <button class="pill-btn active" data-cat="all">All Categories (20)</button>
+          <button class="pill-btn" data-cat="Constitutional">Constitutional</button>
+          <button class="pill-btn" data-cat="Criminal">Criminal</button>
+          <button class="pill-btn" data-cat="Civil & Remedies">Civil & Procedure</button>
+          <button class="pill-btn" data-cat="Commercial & Corporate">Corporate & Business</button>
+          <button class="pill-btn" data-cat="Family">Family & Personal</button>
+          <button class="pill-btn" data-cat="Property & Land">Property & Land</button>
+          <button class="pill-btn" data-cat="Tech & Public Safety">Tech & Public Safety</button>
+        </div>
+      </div>
+
+      <!-- Laws Grid Container -->
+      <div class="laws-grid" id="lawsGridContainer">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 2: 20 LAWYER PROFILES (20 DISTINCT CATEGORIES)
+       ========================================================================== -->
+  <section class="section-padding" id="lawyers-section" style="background: var(--bg-surface-alt); border-top: 1px solid var(--border-color);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-tag">Advocate & Chamber Directory</span>
+          <h2 class="section-title">20 Specialized Advocates Across Practice Fields</h2>
+          <p class="section-desc">
+            Senior Advocates and Barristers practicing before the Supreme Court of Bangladesh (Appellate & High Court Divisions) and specialized tribunals across Dhaka, Chattogram, and regional divisions.
+          </p>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-muted);">
+          Available Advocates: <strong id="lawyersFilteredCount" style="color:var(--primary);">20</strong> of 20 Profiles
+        </div>
+      </div>
+
+      <!-- Controls: Search & Category Filter -->
+      <div class="controls-bar">
+        <div class="controls-row-top">
+          <div class="controls-search">
+            <div class="search-input-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+              </svg>
+              <input type="text" id="lawyerSearchInput" placeholder="Search lawyer name, practice area, chamber, or court...">
+            </div>
+          </div>
+          <div class="controls-select-wrap">
+            <select id="lawyerPracticeSelect" class="custom-select">
+              <option value="all">All 20 Practice Categories</option>
+              <!-- Filled dynamically by JS -->
+            </select>
+          </div>
+          <div class="controls-select-wrap">
+            <select id="lawyerLocationSelect" class="custom-select">
+              <option value="all">All Chamber Locations</option>
+              <option value="Supreme Court">Supreme Court Bar, Dhaka</option>
+              <option value="Gulshan">Gulshan & Banani, Dhaka</option>
+              <option value="Motijheel">Motijheel & Dilkusha C/A</option>
+              <option value="Dhanmondi">Dhanmondi & Lalmatia</option>
+              <option value="Chattogram">Agrabad & Chattogram Port</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lawyers Grid Container -->
+      <div class="lawyers-grid" id="lawyersGridContainer">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 3: CONSULTATION BOOKING FORM & CLIENT-SIDE LOGIC
+       ========================================================================== -->
+  <section class="section-padding booking-section" id="booking-section">
+    <div class="container">
+      <div class="booking-grid">
+        
+        <!-- Left: Process Information -->
+        <div class="booking-info-panel">
+          <span class="section-tag">Direct Scheduling</span>
+          <h2 class="section-title">Schedule a Legal Consultation</h2>
+          <p class="section-desc">
+            Submit your consultation request. All data is verified in-browser and logged into your local appointment register with an instant printable consultation slip.
+          </p>
+
+          <div class="booking-flow-card">
+            <h4>Consultation Workflow</h4>
+            <div class="flow-steps">
+              <div class="flow-step-item">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h5>Select Advocate & Practice Field</h5>
+                  <p>Choose an attorney from the directory or let the form guide your legal concern.</p>
+                </div>
+              </div>
+              <div class="flow-step-item">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h5>Choose Consultation Mode</h5>
+                  <p>Attend in-person at the Supreme Court / Chamber, or schedule a secure online video meeting.</p>
+                </div>
+              </div>
+              <div class="flow-step-item">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h5>Instant Booking Reference</h5>
+                  <p>Obtain an official consultation pass ID, fee estimate, and appointment slip.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CSE Project System Notice -->
+          <div class="disclaimer-cse-box">
+            <strong>System Architecture Notice (CSE Capstone):</strong><br>
+            This frontend handles client-side form validation, phone regex checks (+880 format), conflict-free appointment generation, and persistent <code>localStorage</code> storage. In production, a secure REST API (Node.js/Python) and encrypted SQL/NoSQL database would authenticate and confirm appointments.
+          </div>
+        </div>
+
+        <!-- Right: Interactive Booking Form -->
+        <div class="booking-form-card">
+          <h3 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text-main);">
+            Consultation Request Form
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+            Please provide accurate contact details for case intake and scheduling.
+          </p>
+
+          <form id="consultationBookingForm" novalidate>
+            <!-- Lawyer Picker -->
+            <div class="form-group">
+              <label for="formSelectLawyer" class="form-label">
+                Select Advocate & Chamber <span class="req">*</span>
+              </label>
+              <select id="formSelectLawyer" class="form-control" required>
+                <option value="">-- Choose an Advocate (20 Available) --</option>
+                <!-- Populated dynamically via JS -->
+              </select>
+              <div class="invalid-feedback">Please select a lawyer from the list.</div>
+
+              <!-- Selected Lawyer Preview Tag -->
+              <div class="selected-lawyer-preview" id="selectedLawyerPreview">
+                <div>
+                  <strong id="prevLawyerName" style="color:var(--primary); font-size: 0.9rem;">Advocate Name</strong>
+                  <div id="prevLawyerField" style="font-size: 0.775rem; color: var(--text-muted);">Practice Field</div>
+                </div>
+                <div id="prevLawyerFee" style="font-weight: 700; color: var(--primary); font-size: 0.875rem;">৳0000</div>
+              </div>
+            </div>
+
+            <!-- Client Name & Phone -->
+            <div class="form-group-row">
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="formClientName" class="form-label">Full Name <span class="req">*</span></label>
+                <input type="text" id="formClientName" class="form-control" placeholder="e.g. Md. Tanvir Ahmed" required>
+                <div class="invalid-feedback">Please enter your legal name.</div>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="formClientPhone" class="form-label">Phone Number (BD) <span class="req">*</span></label>
+                <input type="tel" id="formClientPhone" class="form-control" placeholder="017XXXXXXXX or +8801..." required>
+                <div class="invalid-feedback">Please enter a valid Bangladesh phone number (01XXXXXXXXX).</div>
+              </div>
+            </div>
+
+            <!-- Email & City -->
+            <div class="form-group-row">
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="formClientEmail" class="form-label">Email Address <span class="req">*</span></label>
+                <input type="email" id="formClientEmail" class="form-control" placeholder="name@example.com" required>
+                <div class="invalid-feedback">Please provide a valid email address.</div>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="formClientCity" class="form-label">City / Division <span class="req">*</span></label>
+                <select id="formClientCity" class="form-control" required>
+                  <option value="">Select Division</option>
+                  <option value="Dhaka">Dhaka</option>
+                  <option value="Chattogram">Chattogram</option>
+                  <option value="Rajshahi">Rajshahi</option>
+                  <option value="Khulna">Khulna</option>
+                  <option value="Barishal">Barishal</option>
+                  <option value="Sylhet">Sylhet</option>
+                  <option value="Rangpur">Rangpur</option>
+                  <option value="Mymensingh">Mymensingh</option>
+                </select>
+                <div class="invalid-feedback">Please select your division.</div>
+              </div>
+            </div>
+
+            <!-- Consultation Mode Toggle -->
+            <div class="form-group">
+              <label class="form-label">Consultation Mode <span class="req">*</span></label>
+              <div class="consultation-type-toggle">
+                <label class="type-radio-label checked" id="radioLabelChamber">
+                  <input type="radio" name="consultationType" value="Chamber In-Person" checked>
+                  <span>Chamber In-Person</span>
+                </label>
+                <label class="type-radio-label" id="radioLabelOnline">
+                  <input type="radio" name="consultationType" value="Online Video Meeting">
+                  <span>Online Video Call</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Date & Preferred Time Slot -->
+            <div class="form-group-row">
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="formAppointmentDate" class="form-label">Preferred Date <span class="req">*</span></label>
+                <input type="date" id="formAppointmentDate" class="form-control" required>
+                <div class="invalid-feedback">Please pick an appointment date (today or later).</div>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="formTimeSlot" class="form-label">Time Slot <span class="req">*</span></label>
+                <select id="formTimeSlot" class="form-control" required>
+                  <option value="">Choose Slot</option>
+                  <option value="Morning (10:30 AM - 12:00 PM)">Morning (10:30 AM - 12:00 PM)</option>
+                  <option value="Afternoon (02:30 PM - 04:00 PM)">Afternoon (02:30 PM - 04:00 PM)</option>
+                  <option value="Evening (05:30 PM - 07:30 PM)">Evening (05:30 PM - 07:30 PM)</option>
+                  <option value="Night (08:00 PM - 09:30 PM)">Night (08:00 PM - 09:30 PM)</option>
+                </select>
+                <div class="invalid-feedback">Please select a consultation slot.</div>
+              </div>
+            </div>
+
+            <!-- Case Summary -->
+            <div class="form-group">
+              <label for="formCaseSummary" class="form-label">Brief Summary of Legal Issue <span class="req">*</span></label>
+              <textarea id="formCaseSummary" class="form-control" rows="3" placeholder="Briefly outline your situation (e.g. Land mutation dispute, contract breach, bail petition, marriage registration issue)..." required></textarea>
+              <div class="invalid-feedback">Please describe your legal issue (minimum 10 characters).</div>
+            </div>
+
+            <!-- Document Upload Simulator -->
+            <div class="form-group">
+              <label for="formDocUpload" class="form-label">Attach Supporting Document (Optional)</label>
+              <input type="file" id="formDocUpload" class="form-control" accept=".pdf,.doc,.docx,.jpg,.png">
+              <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 4px;">
+                PDF, DOCX, or Scanned Images up to 10MB (Processed safely in browser session)
+              </small>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; padding: 0.9rem; font-size: 1rem; margin-top: 0.5rem;" id="submitBookingBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              <span>Submit Consultation Request</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 4: LEGAL TOOLS & EMERGENCY HELPLINES
+       ========================================================================== -->
+  <section class="tools-section" id="tools-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-tag">Litigation Support</span>
+          <h2 class="section-title">Legal Calculators & Emergency Services</h2>
+          <p class="section-desc">
+            Helpful public legal utilities for Bangladesh citizens, court fee estimation, and national grievance redress hotlines.
+          </p>
+        </div>
+      </div>
+
+      <div class="tools-grid">
+        <!-- Tool 1: Court Fee Estimator -->
+        <div class="tool-card">
+          <h4 style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 0.5rem;">
+            Court Fees Calculator (Ad Valorem)
+          </h4>
+          <p style="font-size: 0.825rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Estimated court fee calculator as per the Court Fees Act 1870 (Schedule I) for civil suits & money claims in Bangladesh.
+          </p>
+
+          <div class="form-group">
+            <label for="calcSuitVal" class="form-label">Suit Claim Value (BDT ৳)</label>
+            <input type="number" id="calcSuitVal" class="form-control" placeholder="e.g. 500000" min="1000">
+          </div>
+          <button class="btn-secondary" style="width: 100%;" onclick="calculateCourtFee()">Calculate Estimated Fee</button>
+
+          <div id="courtFeeResult" style="margin-top: 1rem; padding: 0.75rem; background: var(--bg-surface-alt); border-radius: var(--radius-md); font-size: 0.85rem; display: none;">
+            <!-- Output calculated fee -->
+          </div>
+        </div>
+
+        <!-- Tool 2: Bangladesh Emergency Helplines -->
+        <div class="tool-card">
+          <h4 style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 0.5rem;">
+            Statutory Emergency Helplines
+          </h4>
+          <p style="font-size: 0.825rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+            Instant telephone contacts for government legal services and immediate civil rescue:
+          </p>
+
+          <div class="helpline-item">
+            <div>
+              <div class="helpline-tag">National Legal Aid Services</div>
+              <small style="color:var(--text-muted); font-size:0.75rem;">Government Free Legal Aid (NLASO)</small>
+            </div>
+            <span class="helpline-num">16450</span>
+          </div>
+
+          <div class="helpline-item">
+            <div>
+              <div class="helpline-tag">Bangladesh National Emergency</div>
+              <small style="color:var(--text-muted); font-size:0.75rem;">Police, Fire & Ambulance</small>
+            </div>
+            <span class="helpline-num">999</span>
+          </div>
+
+          <div class="helpline-item">
+            <div>
+              <div class="helpline-tag">Anti-Corruption Commission (ACC)</div>
+              <small style="color:var(--text-muted); font-size:0.75rem;">Corruption Reporting Desk</small>
+            </div>
+            <span class="helpline-num">106</span>
+          </div>
+
+          <div class="helpline-item">
+            <div>
+              <div class="helpline-tag">Women & Children Harassment</div>
+              <small style="color:var(--text-muted); font-size:0.75rem;">Ministry of Women & Children Affairs</small>
+            </div>
+            <span class="helpline-num">109</span>
+          </div>
+        </div>
+
+        <!-- Tool 3: Official Legal Gazette Portals -->
+        <div class="tool-card">
+          <h4 style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 0.5rem;">
+            Official Law Repositories
+          </h4>
+          <p style="font-size: 0.825rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Primary digital gateways managed by the Government of Bangladesh:
+          </p>
+
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
+            <li>
+              <a href="http://bdlaws.minlaw.gov.bd/" target="_blank" rel="noopener noreferrer" style="font-weight: 600;">
+                → Laws of Bangladesh (bdlaws.minlaw.gov.bd)
+              </a>
+              <div style="font-size:0.75rem; color:var(--text-muted);">Ministry of Law, Justice and Parliamentary Affairs</div>
+            </li>
+            <li>
+              <a href="https://supremecourt.gov.bd/" target="_blank" rel="noopener noreferrer" style="font-weight: 600;">
+                → Supreme Court of Bangladesh Official Portal
+              </a>
+              <div style="font-size:0.75rem; color:var(--text-muted);">Daily Cause Lists, Judgments & Circulars</div>
+            </li>
+            <li>
+              <a href="http://www.bgpress.gov.bd/" target="_blank" rel="noopener noreferrer" style="font-weight: 600;">
+                → Bangladesh Government Press (BG Press)
+              </a>
+              <div style="font-size:0.75rem; color:var(--text-muted);">Official Gazette publications of newly passed Acts</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MODAL 1: CONSULTATION BOOKING CONFIRMATION & PRINTABLE SLIP
+       ========================================================================== -->
+  <div class="modal-backdrop" id="bookingReceiptModal">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="closeModal('bookingReceiptModal')">&times;</button>
+      
+      <div style="text-align:center;">
+        <div style="width:52px; height:52px; background:var(--primary-light); color:var(--primary); border-radius:var(--radius-full); display:grid; place-items:center; margin:0 auto 1rem;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <h3 style="font-family: var(--font-serif); font-size: 1.4rem; color: var(--text-main);">
+          Consultation Request Submitted!
+        </h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          Your appointment details have been successfully verified and saved to local storage.
+        </p>
+      </div>
+
+      <!-- Printable Slip Area -->
+      <div class="receipt-container" id="receiptPrintArea">
+        <div class="receipt-header">
+          <span class="receipt-badge">LawBD Official Consultation Pass</span>
+          <div class="receipt-id" id="receiptBookingId">BDL-2026-0000</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
+            Issued on: <span id="receiptIssuedDate"></span>
+          </div>
+        </div>
+
+        <table class="receipt-details-table">
+          <tr>
+            <td>Client Name</td>
+            <td id="receiptClientName">--</td>
+          </tr>
+          <tr>
+            <td>Phone Number</td>
+            <td id="receiptClientPhone">--</td>
+          </tr>
+          <tr>
+            <td>Consulting Advocate</td>
+            <td id="receiptLawyerName">--</td>
+          </tr>
+          <tr>
+            <td>Practice Field</td>
+            <td id="receiptPracticeField">--</td>
+          </tr>
+          <tr>
+            <td>Chamber / Location</td>
+            <td id="receiptChamber">--</td>
+          </tr>
+          <tr>
+            <td>Consultation Mode</td>
+            <td id="receiptMode">--</td>
+          </tr>
+          <tr>
+            <td>Scheduled Date & Time</td>
+            <td id="receiptDateTime">--</td>
+          </tr>
+          <tr>
+            <td>Consultation Fee</td>
+            <td id="receiptFee" style="color:var(--primary);">--</td>
+          </tr>
+        </table>
+      </div>
+
+      <div style="display:flex; gap:0.75rem; margin-top:1.5rem;" class="no-print">
+        <button class="btn-primary" style="flex:1;" onclick="window.print()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/>
+          </svg>
+          Print Slip
+        </button>
+        <button class="btn-secondary" style="flex:1;" onclick="closeModal('bookingReceiptModal')">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: LAWYER FULL BIO & CREDENTIALS
+       ========================================================================== -->
+  <div class="modal-backdrop" id="lawyerBioModal">
+    <div class="modal-box modal-lg">
+      <button class="modal-close-btn" onclick="closeModal('lawyerBioModal')">&times;</button>
+      
+      <div id="lawyerBioContent">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 3: SAVED CONSULTATIONS LIST / CSE STORAGE MANAGER
+       ========================================================================== -->
+  <div class="modal-backdrop" id="savedBookingsModal">
+    <div class="modal-box modal-lg">
+      <button class="modal-close-btn" onclick="closeModal('savedBookingsModal')">&times;</button>
+      
+      <div style="margin-bottom:1.25rem;">
+        <h3 style="font-family: var(--font-serif); font-size: 1.4rem; color: var(--text-main);">
+          Your Saved Legal Consultations
+        </h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          Records stored in your browser's persistent client session (localStorage).
+        </p>
+      </div>
+
+      <div id="savedBookingsList" style="max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem;">
+        <!-- Filled by JS -->
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--border-color);">
+        <button class="btn-secondary" onclick="clearAllBookings()" style="color:var(--crimson); border-color:var(--crimson);">
+          Clear All Records
+        </button>
+        <button class="btn-primary" onclick="closeModal('savedBookingsModal')">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       Site Footer
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-logo" style="margin-bottom: 1rem;">
+            <div class="brand-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+                <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+                <path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
+              </svg>
+            </div>
+            <div class="brand-text">
+              <h1>LawBD</h1>
+              <span>AinSheba Portal</span>
+            </div>
+          </div>
+          <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; max-width: 320px;">
+            A modern, accessible legal information repository and chamber booking engine designed for Bangladesh citizens, academic researchers, and legal practitioners.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Key Bangladesh Laws</h4>
+          <ul>
+            <li><a href="#laws-section" onclick="quickFilterAction('Penal Code')">Penal Code, 1860</a></li>
+            <li><a href="#laws-section" onclick="quickFilterAction('Criminal Procedure')">CrPC, 1898</a></li>
+            <li><a href="#laws-section" onclick="quickFilterAction('Constitution')">Constitution of Bangladesh</a></li>
+            <li><a href="#laws-section" onclick="quickFilterAction('Labor')">Labor Act, 2006</a></li>
+            <li><a href="#laws-section" onclick="quickFilterAction('Cyber')">Cyber Security Act</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Chambers & Practice</h4>
+          <ul>
+            <li><a href="#lawyers-section">Supreme Court Appellate</a></li>
+            <li><a href="#lawyers-section">High Court Division</a></li>
+            <li><a href="#lawyers-section">Corporate Advisory</a></li>
+            <li><a href="#lawyers-section">Family Courts</a></li>
+            <li><a href="#lawyers-section">Land & Property Dispute</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Academic & Legal Aid</h4>
+          <ul>
+            <li><a href="http://bdlaws.minlaw.gov.bd/" target="_blank" rel="noopener">bdlaws Official Repo</a></li>
+            <li><a href="https://supremecourt.gov.bd/" target="_blank" rel="noopener">Supreme Court Portal</a></li>
+            <li><a href="#tools-section">National Legal Aid (16450)</a></li>
+            <li><a href="#booking-section">Schedule Consultation</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © 2026 <strong>LawBD</strong> (AinSheba Portal). Computer Science & Engineering (CSE) Capstone Project.
+        </div>
+        <div>
+          Legal Reference Source: <em>bdlaws.minlaw.gov.bd</em> • Compliant with Bangladesh Legal Codification
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       JAVASCRIPT LOGIC: DATA & CONTROLLERS
+       ========================================================================== -->
+  <script>
+    /* ==========================================================================
+       1. DATASET: 20 BANGLADESH LAWS WITH ACCURATE BDLAWS REPO LINKS
+       ========================================================================== */
+    const BANGLADESH_LAWS = [
+      {
+        id: 1,
+        title: "The Constitution of the People's Republic of Bangladesh",
+        banglaTitle: "গণপ্রজাতন্ত্রী বাংলাদেশের সংবিধান",
+        year: 1972,
+        actNo: "Supreme Law of Bangladesh",
+        category: "Constitutional",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-367.html",
+        description: "The supreme law of Bangladesh establishing the democratic republic, declaring fundamental rights of citizens (Articles 26–47A), principles of state policy, and writ jurisdictions of the High Court Division under Article 102.",
+        keyProvisions: "Part III: Fundamental Rights • Article 102: Writ Petitions (Habeas Corpus, Mandamus, Certiorari) • Article 7: Supremacy of the Constitution."
+      },
+      {
+        id: 2,
+        title: "The Penal Code, 1860",
+        banglaTitle: "দণ্ডবিধি, ১৮৬০",
+        year: 1860,
+        actNo: "Act No. XLV of 1860",
+        category: "Criminal",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-11.html",
+        description: "The substantive penal statute of Bangladesh defining crimes, offenses, criminal intentions, and statutory punishments across murder, theft, fraud, cheating, criminal breach of trust, and defamation.",
+        keyProvisions: "Sec 302: Murder Punishment • Sec 378/379: Theft • Sec 420: Cheating & Fraud • Sec 406: Criminal Breach of Trust • Sec 499/500: Defamation."
+      },
+      {
+        id: 3,
+        title: "The Code of Criminal Procedure, 1898 (CrPC)",
+        banglaTitle: "ফৌজদারী কার্যবিধি, ১৮৯৮",
+        year: 1898,
+        actNo: "Act No. V of 1898",
+        category: "Criminal",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-75.html",
+        description: "The primary procedural statute regulating criminal investigation, FIR filing, arrest procedures, investigation by police, bail jurisdiction (Sec 497/498), court trial hierarchies, and magistrate powers in Bangladesh.",
+        keyProvisions: "Sec 154: First Information Report (FIR) • Sec 161: Police Interrogation • Sec 497/498: Anticipatory & Regular Bail • Sec 561A: Inherent powers of High Court."
+      },
+      {
+        id: 4,
+        title: "The Code of Civil Procedure, 1908 (CPC)",
+        banglaTitle: "দেওয়ানী কার্যবিধি, ১৯০৮",
+        year: 1908,
+        actNo: "Act No. V of 1908",
+        category: "Civil & Remedies",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-86.html",
+        description: "Comprehensive code dictating the administration and procedural conduct of all civil courts in Bangladesh, including plaint presentation, summons, temporary injunctions, execution of decrees, and appeals.",
+        keyProvisions: "Order 39 (Rules 1-2): Temporary Injunctions • Section 9: Jurisdiction of Civil Courts • Section 11: Res Judicata • Section 115: Civil Revision."
+      },
+      {
+        id: 5,
+        title: "The Evidence Act, 1872",
+        banglaTitle: "সাক্ষ্য আইন, ১৮৭২",
+        year: 1872,
+        actNo: "Act No. I of 1872",
+        category: "Civil & Remedies",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-24.html",
+        description: "Governs the admissibility, relevancy, and weight of judicial evidence, oral testimony, documentary proof, electronic records, burdens of proof, and witness cross-examinations in Bangladesh courts.",
+        keyProvisions: "Sec 101: Burden of Proof • Sec 65A/65B: Admissibility of Electronic Records & Digital Evidence • Sec 114: Court Presumptions."
+      },
+      {
+        id: 6,
+        title: "The Contract Act, 1872",
+        banglaTitle: "চুক্তি আইন, ১৮৭২",
+        year: 1872,
+        actNo: "Act No. IX of 1872",
+        category: "Commercial & Corporate",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-26.html",
+        description: "Governs the creation, validity, and enforcement of contractual obligations, offer and acceptance, considerations, breach of contracts, liquidated damages, indemnity, and guarantee agreements in Bangladesh.",
+        keyProvisions: "Sec 10: Essentials of Valid Contract • Sec 73: Compensation for Loss or Damage Caused by Breach of Contract • Sec 124: Contract of Indemnity."
+      },
+      {
+        id: 7,
+        title: "The Transfer of Property Act, 1882",
+        banglaTitle: "সম্পত্তি হস্তান্তর আইন, ১৮৮২",
+        year: 1882,
+        actNo: "Act No. IV of 1882",
+        category: "Property & Land",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-48.html",
+        description: "Regulates inter-vivos transfers of immovable property including sale deeds, deeds of mortgage, land leases, property gifts (Heva), exchanges, and registration requisites under Bangladesh real estate jurisprudence.",
+        keyProvisions: "Sec 53A: Part Performance Doctrine • Sec 54: Absolute Sale of Immovable Property • Sec 58: Mortgages • Sec 105: Leases."
+      },
+      {
+        id: 8,
+        title: "The Specific Relief Act, 1877",
+        banglaTitle: "সুনির্দিষ্ট প্রতিকার আইন, ১৮৭৭",
+        year: 1877,
+        actNo: "Act No. I of 1877",
+        category: "Civil & Remedies",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-32.html",
+        description: "Provides distinct equitable civil remedies for aggrieved parties, including specific performance of contracts, recovery of land possession, declaratory decrees of title, and permanent injunctions.",
+        keyProvisions: "Sec 9: Summary Recovery of Immovable Property • Sec 12: Specific Performance of Contract • Sec 42: Declaratory Decrees of Status/Title • Sec 54: Perpetual Injunctions."
+      },
+      {
+        id: 9,
+        title: "The Bangladesh Labor Act, 2006",
+        banglaTitle: "বাংলাদেশ শ্রম আইন, ২০০৬",
+        year: 2006,
+        actNo: "Act No. XLII of 2006",
+        category: "Commercial & Corporate",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-952.html",
+        description: "Consolidates laws concerning employment conditions, minimum wages, occupational safety, maternity benefits, trade union governance, retrenchment gratuities, and Labour Court dispute redress in Bangladesh.",
+        keyProvisions: "Sec 26: Termination of Employment by Employer • Sec 45: Maternity Benefit Rules • Sec 214: Labour Courts & Labour Appellate Tribunal."
+      },
+      {
+        id: 10,
+        title: "The Companies Act, 1994",
+        banglaTitle: "কোম্পানি আইন, ১৯৯৪",
+        year: 1994,
+        actNo: "Act No. XVIII of 1994",
+        category: "Commercial & Corporate",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-787.html",
+        description: "The primary charter for the formation, RJSC incorporation, management, governance, director duties, minority shareholder protections, merger schemes, and winding-up procedures of corporate entities in Bangladesh.",
+        keyProvisions: "Sec 5: Incorporation • Sec 43: Rectification of Register of Members • Sec 233: Protection of Minority Shareholders Against Oppression & Mismanagement."
+      },
+      {
+        id: 11,
+        title: "The Negotiable Instruments Act, 1881",
+        banglaTitle: "হস্তান্তরযোগ্য দলিল আইন, ১৮৮১",
+        year: 1881,
+        actNo: "Act No. XXVI of 1881",
+        category: "Commercial & Corporate",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-43.html",
+        description: "Governs promissory notes, bills of exchange, and bank cheques. Notably famous for Section 138, providing strict criminal penal actions for dishonour of bank cheques due to insufficiency of funds.",
+        keyProvisions: "Sec 138: Dishonour of Cheque for Insufficiency of Funds (Imprisonment up to 1 yr & 3x Cheque amount fine) • Sec 141: Corporate Cheque Liability."
+      },
+      {
+        id: 12,
+        title: "Cyber Security Act, 2023",
+        banglaTitle: "সাইবার নিরাপত্তা আইন, ২০২৩",
+        year: 2023,
+        actNo: "Act No. 38 of 2023",
+        category: "Tech & Public Safety",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-1445.html",
+        description: "Enacted to identify and penalize cybercrimes, computer hacking, identity theft, unauthorized system access, cyber extortion, digital fraud, and to protect critical information infrastructure across Bangladesh.",
+        keyProvisions: "Sec 17: Critical Information Infrastructure offenses • Sec 24: Identity Fraud & Phishing • Sec 28: Digital Defamation & Hate speech regulations."
+      },
+      {
+        id: 13,
+        title: "The Family Courts Act, 2023",
+        banglaTitle: "পারিবারিক আদালত আইন, ২০২৩",
+        year: 2023,
+        actNo: "Act No. 51 of 2023",
+        category: "Family",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-1458.html",
+        description: "Empowers Family Courts to adjudicate matrimonial disputes expeditiously, including dissolution of marriage, restitution of conjugal rights, dower (Mohorana), maintenance (Khorpoush), and child custody (Hizanat).",
+        keyProvisions: "Sec 5: Exclusive Family Court Jurisdiction (Divorce, Dower, Maintenance, Custody) • Pre-trial & Post-trial Alternative Dispute Reconciliation."
+      },
+      {
+        id: 14,
+        title: "The Muslim Family Laws Ordinance, 1961",
+        banglaTitle: "মুসলিম পারিবারিক আইন অধ্যাদেশ, ১৯৬১",
+        year: 1961,
+        actNo: "Ordinance No. VIII of 1961",
+        category: "Family",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-305.html",
+        description: "Special ordinance regulating Muslim personal law in Bangladesh, including mandatory divorce notice through Arbitration Councils, restrictions on polygamy, registration of Nikahnama, and orphan grandchild inheritance rights.",
+        keyProvisions: "Sec 4: Grandchild Inheritance • Sec 6: Permission for Second Marriage • Sec 7: Talaq / Divorce Notice to Union Parishad / Ward Chairman."
+      },
+      {
+        id: 15,
+        title: "The Consumer Rights Protection Act, 2009",
+        banglaTitle: "ভোক্তা অধিকার সংরক্ষণ আইন, ২০০৯",
+        year: 2009,
+        actNo: "Act No. XXVI of 2009",
+        category: "Commercial & Corporate",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-1011.html",
+        description: "Protects consumers from adulteration, exorbitant pricing, deceptive advertisements, counterfeit goods, and substandard services, establishing the Directorate of National Consumer Rights Protection (DNCRP).",
+        keyProvisions: "Sec 37: Penalty for Selling at Higher Price • Sec 40: Adulteration Penalties • Sec 76: Consumer complaint rewards (25% penalty proceeds to complainant)."
+      },
+      {
+        id: 16,
+        title: "The Anti-Corruption Commission Act, 2004",
+        banglaTitle: "দুর্নীতি দমন কমিশন আইন, ২০০৪",
+        year: 2004,
+        actNo: "Act No. V of 2004",
+        category: "Criminal",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-906.html",
+        description: "Established the independent Anti-Corruption Commission (ACC / দুদক) of Bangladesh to investigate, inquire, and prosecute corrupt practices, disproportionate wealth, abuse of power, and bribery.",
+        keyProvisions: "Sec 19: Special Investigative Powers • Sec 26: Notice for Wealth Statement Declaration • Sec 27: Offense of Possessing Disproportionate Assets."
+      },
+      {
+        id: 17,
+        title: "The Right to Information Act, 2009",
+        banglaTitle: "তথ্য অধিকার আইন, ২০০৯",
+        year: 2009,
+        actNo: "Act No. XX of 2009",
+        category: "Constitutional",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-1010.html",
+        description: "Empowers citizens to demand and obtain public information from government, statutory, and non-government bodies receiving public funding, institutionalizing administrative transparency.",
+        keyProvisions: "Sec 4: Citizen's Right to Information • Sec 9: Time Limit for Providing Information (20-30 days) • Information Commission Appeal Mechanism."
+      },
+      {
+        id: 18,
+        title: "The Bangladesh Environment Conservation Act, 1995",
+        banglaTitle: "বাংলাদেশ পরিবেশ সংরক্ষণ আইন, ১৯৯৫",
+        year: 1995,
+        actNo: "Act No. I of 1995",
+        category: "Tech & Public Safety",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-791.html",
+        description: "Statute for conservation, ecological improvement, industrial pollution control, and mitigation of environmental degradation through the Department of Environment (DoE) and Environment Courts.",
+        keyProvisions: "Sec 6A: Restriction on Polythene & Hazardous Materials • Sec 12: Mandatory Environmental Clearance Certificate (ECC) • Environmental Courts."
+      },
+      {
+        id: 19,
+        title: "The Arbitration Act, 2001",
+        banglaTitle: "সালিশী আইন, ২০০১",
+        year: 2001,
+        actNo: "Act No. I of 2001",
+        category: "Commercial & Corporate",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-840.html",
+        description: "Based on UNCITRAL Model Law, this act governs domestic and international commercial arbitrations, enforcement of foreign arbitral awards, and court-assisted interim measures in Bangladesh.",
+        keyProvisions: "Sec 7: Court Bar Where Arbitration Agreement Exists • Sec 42: Setting Aside Arbitral Award grounds • Sec 45: Enforcement of Foreign Awards."
+      },
+      {
+        id: 20,
+        title: "The Narcotics Control Act, 2018",
+        banglaTitle: "মাদকদ্রব্য নিয়ন্ত্রণ আইন, ২০১৮",
+        year: 2018,
+        actNo: "Act No. 63 of 2018",
+        category: "Tech & Public Safety",
+        officialUrl: "http://bdlaws.minlaw.gov.bd/act-1262.html",
+        description: "A stringent penal statute curbing illegal production, transport, possession, sale, and trafficking of narcotics, synthetic drugs (such as Yaba, Crystal Meth), with provision for capital punishment.",
+        keyProvisions: "Sec 36 (Table of Penalties): Mandatory Capital Punishment / Life Imprisonment for commercial quantities • Financial investigation of drug proceeds."
+      }
+    ];
+
+    /* ==========================================================================
+       2. DATASET: 20 LAWYER PROFILES (20 DISTINCT LEGAL CATEGORIES)
+       ========================================================================== */
+    const LAWYER_PROFILES = [
+      {
+        id: 1,
+        name: "Barrister Rafiqul Islam",
+        title: "Senior Advocate, Supreme Court of Bangladesh",
+        category: "Criminal Defense & Trial",
+        experience: "22 Years",
+        court: "Appellate & High Court Divisions",
+        chamber: "Room 304, Supreme Court Bar Association Annex, Dhaka",
+        phone: "+880 1711-234567",
+        email: "rafiqul.islam.law@gmail.com",
+        fee: "৳ 4,000 / Consultation",
+        education: "LL.B (Hons), University of Dhaka; Barrister-at-Law, Lincoln's Inn (UK)",
+        bio: "Specializes in complex homicide trials, anticipatory bails under CrPC 498, special tribunal prosecutions, and appellate criminal revisions before the High Court Division.",
+        rating: 4.9,
+        consultationHours: "Sun - Thu (05:00 PM - 08:30 PM)"
+      },
+      {
+        id: 2,
+        name: "Barrister Tania Ahmed",
+        title: "Partner, Corporate & Commercial Advisory",
+        category: "Corporate, M&A & Joint Ventures",
+        experience: "16 Years",
+        court: "High Court Division (Company Bench)",
+        chamber: "Suite 7B, Concord Tower, Gulshan-2, Dhaka-1212",
+        phone: "+880 1819-345678",
+        email: "tania@ahmedcorporate.com",
+        fee: "৳ 6,000 / Consultation",
+        education: "LL.M, Harvard Law School; Barrister-at-Law, Inner Temple (UK)",
+        bio: "Renowned advisor for multinational corporations, foreign direct investments (FDI), cross-border mergers, BIDA licensing, and shareholder dispute litigations under Sec 233.",
+        rating: 5.0,
+        consultationHours: "Mon - Fri (10:00 AM - 04:00 PM)"
+      },
+      {
+        id: 3,
+        name: "Advocate M. Shahidur Rahman",
+        title: "Senior Advocate, Constitutional Bench",
+        category: "Constitutional Law & Writ Jurisdiction",
+        experience: "26 Years",
+        court: "Appellate Division, Supreme Court",
+        chamber: "Chamber 12, Purana Paltan Line, Dhaka-1000",
+        phone: "+880 1713-456789",
+        email: "shahidur.writ.sc@gmail.com",
+        fee: "৳ 5,000 / Consultation",
+        education: "LL.M, University of Dhaka; Senior Advocate, SCB",
+        bio: "Veteran constitutional lawyer handling Public Interest Litigations (PIL), Habeas Corpus, Mandamus, fundamental right enforcements, and service matter writs under Article 102.",
+        rating: 4.9,
+        consultationHours: "Sun - Wed (06:00 PM - 09:00 PM)"
+      },
+      {
+        id: 4,
+        name: "Advocate Farzana Sharmin",
+        title: "Family Law & Child Custody Specialist",
+        category: "Family, Marriage & Child Custody",
+        experience: "14 Years",
+        court: "Dhaka Family Courts & High Court Division",
+        chamber: "House 42, Road 9/A, Dhanmondi, Dhaka",
+        phone: "+880 1912-567890",
+        email: "farzana.familylaw@bdlegal.org",
+        fee: "৳ 2,500 / Consultation",
+        education: "LL.B (Hons), LL.M, Jagannath University",
+        bio: "Dedicated advocate specializing in compassionate matrimonial resolutions, divorce notices under MFLO 1961, dower (denmohor) recovery, and mother/father guardianship rights.",
+        rating: 4.8,
+        consultationHours: "Sat - Thu (03:00 PM - 07:00 PM)"
+      },
+      {
+        id: 5,
+        name: "Advocate Mozammel Haque Bhuiyan",
+        title: "Property & Land Title Litigator",
+        category: "Land Dispute, Mutation & Title Suits",
+        experience: "20 Years",
+        court: "Dhaka District & Sessions Judge Court",
+        chamber: "Segunbagicha Law Chambers, Dhaka-1000",
+        phone: "+880 1715-678901",
+        email: "mozammel.landlaw@lawbd.net",
+        fee: "৳ 3,000 / Consultation",
+        education: "LL.B, University of Rajshahi; Member, Dhaka Bar",
+        bio: "Expert in complex land partition suits, CS/SA/RS/City Khatian vetting, fraudulent deed cancellations, AC Land mutation hearings, and Transfer of Property Act litigation.",
+        rating: 4.7,
+        consultationHours: "Sun - Thu (04:30 PM - 08:30 PM)"
+      },
+      {
+        id: 6,
+        name: "Barrister Tanvir Hasan",
+        title: "Cyber Forensic & Digital Crime Counsel",
+        category: "Cyber Law & Information Technology",
+        experience: "11 Years",
+        court: "Cyber Tribunal (Dhaka) & High Court",
+        chamber: "Level 4, Road 11, Banani, Dhaka-1213",
+        phone: "+880 1611-789012",
+        email: "tanvir.cyberlaw@lextech.com.bd",
+        fee: "৳ 3,500 / Consultation",
+        education: "B.Sc (CSE), BUET; LL.B (Hons), University of London; Lincoln's Inn",
+        bio: "Rare dual qualification in Computer Science and Law. Represents clients in Cyber Security Act disputes, electronic identity theft, fintech fraud, and digital evidence trials.",
+        rating: 4.9,
+        consultationHours: "Mon - Sat (02:00 PM - 06:30 PM)"
+      },
+      {
+        id: 7,
+        name: "Advocate Nazmul Karim Chowdhury",
+        title: "Banking & Debt Recovery Specialist",
+        category: "Banking, Artha Rin & Cheque Dishonour",
+        experience: "18 Years",
+        court: "Artha Rin Adalat & High Court Division",
+        chamber: "Level 5, Al-Razi Complex, Motijheel C/A, Dhaka",
+        phone: "+880 1817-890123",
+        email: "nazmul.artharin@motijheelbar.com",
+        fee: "৳ 4,000 / Consultation",
+        education: "LL.B (Hons), LL.M, University of Chittagong",
+        bio: "Specialist in Artha Rin Adalat Ain 2003 loan recovery, Sec 138 Negotiable Instruments Act cheque dishonour cases, LC disputes, and corporate loan debt restructuring.",
+        rating: 4.8,
+        consultationHours: "Sun - Thu (05:00 PM - 09:00 PM)"
+      },
+      {
+        id: 8,
+        name: "Advocate Nasreen Sultana",
+        title: "Labour Tribunal & Industrial Disputes Counsel",
+        category: "Labor & Industrial Employment",
+        experience: "15 Years",
+        court: "Labour Courts & Labour Appellate Tribunal, Dhaka",
+        chamber: "Tejgaon Commercial Area, Dhaka-1208",
+        phone: "+880 1718-901234",
+        email: "nasreen.laborlaw@chambersbd.com",
+        fee: "৳ 2,500 / Consultation",
+        education: "LL.B (Hons), LL.M, Dhaka University",
+        bio: "Advocates for corporate workforce compliance, unlawful dismissal grievances, RMG factory safety standards, gratuity claims, and collective bargaining under Labor Act 2006.",
+        rating: 4.8,
+        consultationHours: "Sat - Wed (03:30 PM - 07:30 PM)"
+      },
+      {
+        id: 9,
+        name: "Barrister K. M. Zillur Rahman",
+        title: "Intellectual Property Attorney",
+        category: "Intellectual Property, Patents & Trademarks",
+        experience: "13 Years",
+        court: "DPDT & Supreme Court of Bangladesh",
+        chamber: "Sector 7, Uttara Model Town, Dhaka-1230",
+        phone: "+880 1919-012345",
+        email: "zillur.ip@rahmanpartners.com",
+        fee: "৳ 4,500 / Consultation",
+        education: "LL.M in Intellectual Property, QMUL London; Gray's Inn",
+        bio: "Protects international and local brands with trademark registrations, copyright infringements, patent licensing, software trade secrets, and DPDT opposition litigation.",
+        rating: 4.9,
+        consultationHours: "Mon - Thu (11:00 AM - 05:00 PM)"
+      },
+      {
+        id: 10,
+        name: "Advocate S. M. Rezaul Karim",
+        title: "Tax, Customs & Fiscal Law Consultant",
+        category: "Taxation, VAT & Customs Law",
+        experience: "21 Years",
+        court: "Taxes Appellate Tribunal & High Court",
+        chamber: "Kakrail Law Mansions, VIP Road, Dhaka",
+        phone: "+880 1716-123456",
+        email: "rezaul.tax@vatadvisorsbd.com",
+        fee: "৳ 5,000 / Consultation",
+        education: "M.Com (Accounting), LL.B; Member, Taxes Bar Association",
+        bio: "Focuses on corporate income tax planning, VAT audits, customs valuation appeals before NBR, and tax reference applications before the High Court Division.",
+        rating: 4.9,
+        consultationHours: "Sun - Thu (04:00 PM - 08:00 PM)"
+      },
+      {
+        id: 11,
+        name: "Barrister Mahbub Alam",
+        title: "Maritime & Shipping Law Counsel",
+        category: "Admiralty & Maritime Law",
+        experience: "19 Years",
+        court: "High Court Division (Admiralty Bench)",
+        chamber: "Chamber 402, Agrabad C/A, Chattogram-4100",
+        phone: "+880 1814-234567",
+        email: "mahbub.admiralty@ctgchambers.com",
+        fee: "৳ 6,500 / Consultation",
+        education: "LL.M (Maritime Law), Southampton; Middle Temple (UK)",
+        bio: "Premier maritime barrister representing shipowners, P&I clubs, vessel arrest proceedings, cargo claims, and Chattogram port collision disputes under Admiralty Court Act.",
+        rating: 5.0,
+        consultationHours: "Sun - Thu (10:00 AM - 04:00 PM)"
+      },
+      {
+        id: 12,
+        name: "Advocate Syeda Rizwana Akhter",
+        title: "Environmental Law & Public Trust Advocate",
+        category: "Environmental Law & Conservation",
+        experience: "17 Years",
+        court: "Environment Court & Supreme Court",
+        chamber: "Lalmatia Housing Society, Dhaka-1207",
+        phone: "+880 1712-345678",
+        email: "rizwana.environment@greenjustice.org",
+        fee: "৳ 2,000 / Consultation",
+        education: "LL.B (Hons), LL.M, University of Dhaka",
+        bio: "Pioneering green litigator focused on river pollution, illegal hill cutting, wetland protection, forest conservation, and environmental clearance injunctions under ECA 1995.",
+        rating: 4.9,
+        consultationHours: "Mon - Thu (03:00 PM - 06:30 PM)"
+      },
+      {
+        id: 13,
+        name: "Advocate Zahidul Islam",
+        title: "Human Rights & Public Defense Counsel",
+        category: "Human Rights & Civil Liberties",
+        experience: "16 Years",
+        court: "Supreme Court & Special Tribunals",
+        chamber: "Bijoynagar Water Tank Road, Dhaka-1000",
+        phone: "+880 1913-456789",
+        email: "zahidul.humanrights@banglalaw.org",
+        fee: "৳ 2,000 / Consultation",
+        education: "LL.B, University of Rajshahi; LL.M (Human Rights)",
+        bio: "Stalwart defender against custodial violations, unlawful detentions, freedom of speech curtailment, and marginalized community access to justice.",
+        rating: 4.8,
+        consultationHours: "Sun - Wed (04:00 PM - 07:30 PM)"
+      },
+      {
+        id: 14,
+        name: "Barrister Ashiqur Rahman",
+        title: "Fellow CIArb & Commercial Arbitrator",
+        category: "Arbitration & Commercial Dispute Resolution",
+        experience: "18 Years",
+        court: "BIAC & Supreme Court of Bangladesh",
+        chamber: "Road 4, Mohakhali DOHS, Dhaka-1206",
+        phone: "+880 1717-567890",
+        email: "ashiqur@arbitrationbangladesh.com",
+        fee: "৳ 7,000 / Consultation",
+        education: "FCIArb (London); LL.M, King's College London; Lincoln's Inn",
+        bio: "Accredited international arbitrator managing engineering procurement disputes, EPC contract arbitrations, and enforcement of foreign awards under Arbitration Act 2001.",
+        rating: 5.0,
+        consultationHours: "Sun - Thu (11:00 AM - 05:00 PM)"
+      },
+      {
+        id: 15,
+        name: "Advocate Dr. Sabrina Yasmin",
+        title: "Medico-Legal & Healthcare Law Expert",
+        category: "Medical Malpractice & Healthcare Law",
+        experience: "12 Years",
+        court: "High Court Division & Consumer Courts",
+        chamber: "Road 14, Mirpur DOHS, Dhaka-1216",
+        phone: "+880 1618-678901",
+        email: "sabrina.medicolegal@healthlawbd.com",
+        fee: "৳ 3,500 / Consultation",
+        education: "MBBS (DMC), LL.B (Hons), LL.M (Medical Law)",
+        bio: "Rare physician-lawyer advising on medical negligence suits, hospital clinical compliance, BMDC disciplinary hearings, clinical trials, and drug regulatory inquiries.",
+        rating: 4.9,
+        consultationHours: "Sat - Wed (05:00 PM - 08:30 PM)"
+      },
+      {
+        id: 16,
+        name: "Barrister Fariha Kabir",
+        title: "Immigration & Cross-Border Mobility Counsel",
+        category: "Immigration, Citizenship & Foreign Visas",
+        experience: "10 Years",
+        court: "High Court Division & Embassy Consultations",
+        chamber: "Gulshan Avenue, Gulshan-1, Dhaka-1212",
+        phone: "+880 1811-789012",
+        email: "fariha.kabir@globalvisa-law.com",
+        fee: "৳ 3,500 / Consultation",
+        education: "LL.B (Hons), Cardiff University; Lincoln's Inn (UK)",
+        bio: "Provides legal counsel on Bangladesh dual citizenship, investor visas, expatriate work permits (BIDA), judicial review for visa refusals, and extradition treaties.",
+        rating: 4.7,
+        consultationHours: "Sun - Thu (10:30 AM - 04:30 PM)"
+      },
+      {
+        id: 17,
+        name: "Advocate Anisur Rahman",
+        title: "Media, Defamation & Press Law Advocate",
+        category: "Media, Defamation & Press Freedom",
+        experience: "17 Years",
+        court: "High Court Division & Press Council",
+        chamber: "Topkhana Road, Near Press Club, Dhaka",
+        phone: "+880 1714-890123",
+        email: "anisur.media@topkhanachambers.bd",
+        fee: "৳ 3,000 / Consultation",
+        education: "LL.B (Hons), LL.M, Dhaka University",
+        bio: "Handles civil and criminal defamation lawsuits, Section 500 Penal Code proceedings, journalist press defense, OTT platform compliance, and broadcast licensing.",
+        rating: 4.8,
+        consultationHours: "Sun - Thu (04:00 PM - 08:00 PM)"
+      },
+      {
+        id: 18,
+        name: "Advocate Kamrul Hasan",
+        title: "Consumer Rights & Fair Trade Litigator",
+        category: "Consumer Protection & Anti-Adulteration",
+        experience: "13 Years",
+        court: "DNCRP Tribunals & District Courts",
+        chamber: "Band Road, Sadar, Barishal & Segunbagicha, Dhaka",
+        phone: "+880 1915-901234",
+        email: "kamrul.consumer@fairtradebd.org",
+        fee: "৳ 2,000 / Consultation",
+        education: "LL.B, University of Rajshahi",
+        bio: "Fierce champion for consumer grievance redress, e-commerce refund claims, food adulteration penalties, and filing complaints under Consumer Rights Protection Act 2009.",
+        rating: 4.7,
+        consultationHours: "Sat - Wed (03:00 PM - 07:00 PM)"
+      },
+      {
+        id: 19,
+        name: "Advocate Moniruzzaman Khan",
+        title: "Insurance & Actuarial Law Specialist",
+        category: "Insurance, Claims & Financial Risk",
+        experience: "19 Years",
+        court: "Insurance Development & Regulatory Authority (IDRA)",
+        chamber: "Dilkusha Commercial Area, Dhaka-1000",
+        phone: "+880 1719-012345",
+        email: "monir.insurance@dilkushalaw.com",
+        fee: "৳ 4,000 / Consultation",
+        education: "LL.B (Hons), LL.M, Chittagong University",
+        bio: "Specializes in life and general insurance claim rejections, motor accident claims tribunal compensation, marine insurance subrogation, and IDRA regulatory compliance.",
+        rating: 4.8,
+        consultationHours: "Sun - Thu (04:30 PM - 08:30 PM)"
+      },
+      {
+        id: 20,
+        name: "Barrister Saimon Farhad",
+        title: "Telecom, Fintech & Spectrum Law Counsel",
+        category: "Telecommunication & Fintech Regulation",
+        experience: "14 Years",
+        court: "BTRC & High Court Division",
+        chamber: "Kawran Bazar Commercial Area, Dhaka-1215",
+        phone: "+880 1812-123456",
+        email: "saimon.telecom@ictlawbangladesh.com",
+        fee: "৳ 5,500 / Consultation",
+        education: "LL.M, London School of Economics (LSE); Inner Temple",
+        bio: "Advises mobile network operators (MNOs), mobile financial services (MFS like bKash/Nagad), payment gateway compliance, BTRC spectrum disputes, and VoIP regulations.",
+        rating: 4.9,
+        consultationHours: "Mon - Fri (11:00 AM - 05:00 PM)"
+      }
+    ];
+
+    /* ==========================================================================
+       3. STATE MANAGEMENT & DOM INITIALIZATION
+       ========================================================================== */
+    const STORAGE_KEY_BOOKINGS = 'lawbd_consultations_data';
+    const STORAGE_KEY_BOOKMARKS = 'lawbd_bookmarked_laws';
+    const STORAGE_KEY_THEME = 'lawbd_theme_preference';
+
+    let currentLawCategory = 'all';
+    let currentLawyerPractice = 'all';
+    let currentLawyerLocation = 'all';
+
+    // Initialize application on DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      renderLaws(BANGLADESH_LAWS);
+      renderLawyers(LAWYER_PROFILES);
+      populateBookingDropdowns();
+      setupEventListeners();
+      updateBookingsCounter();
+      setupDateConstraints();
+    });
+
+    /* ==========================================================================
+       4. THEME CONTROLLER (Dark / Light)
+       ========================================================================== */
+    function initTheme() {
+      const savedTheme = localStorage.getItem(STORAGE_KEY_THEME) || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeIcons(savedTheme);
+
+      document.getElementById('themeToggleBtn').addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem(STORAGE_KEY_THEME, next);
+        updateThemeIcons(next);
+      });
+    }
+
+    function updateThemeIcons(theme) {
+      const sun = document.getElementById('themeIconSun');
+      const moon = document.getElementById('themeIconMoon');
+      if (theme === 'dark') {
+        sun.style.display = 'block';
+        moon.style.display = 'none';
+      } else {
+        sun.style.display = 'none';
+        moon.style.display = 'block';
+      }
+    }
+
+    /* ==========================================================================
+       5. RENDERING: 20 LAWS WITH FILTERING & BOOKMARKS
+       ========================================================================== */
+    function getBookmarks() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY_BOOKMARKS)) || [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function toggleBookmarkLaw(lawId) {
+      let bookmarks = getBookmarks();
+      if (bookmarks.includes(lawId)) {
+        bookmarks = bookmarks.filter(id => id !== lawId);
+      } else {
+        bookmarks.push(lawId);
+      }
+      localStorage.setItem(STORAGE_KEY_BOOKMARKS, JSON.stringify(bookmarks));
+      filterAndRenderLaws();
+    }
+
+    function renderLaws(lawsList) {
+      const container = document.getElementById('lawsGridContainer');
+      const countEl = document.getElementById('lawsFilteredCount');
+      countEl.textContent = lawsList.length;
+
+      if (lawsList.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 3rem; background: var(--bg-surface); border-radius: var(--radius-lg); border: 1px dashed var(--border-color);">
+            <p style="font-size: 1.1rem; color: var(--text-muted); font-weight: 600;">No matching Bangladesh laws found.</p>
+            <button class="btn-secondary" style="margin-top: 1rem;" onclick="resetLawFilters()">Reset Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      const bookmarks = getBookmarks();
+
+      container.innerHTML = lawsList.map(law => {
+        const isBookmarked = bookmarks.includes(law.id);
+        return `
+          <div class="law-card" data-id="${law.id}">
+            <div class="law-card-top">
+              <div class="law-meta-badges">
+                <span class="law-badge-category">${escapeHTML(law.category)}</span>
+                <span class="law-act-no">${escapeHTML(law.actNo)} (${law.year})</span>
+              </div>
+              <h3 class="law-card-title">${escapeHTML(law.title)}</h3>
+              <span class="law-card-bn">${escapeHTML(law.banglaTitle)}</span>
+              <p class="law-card-desc">${escapeHTML(law.description)}</p>
+              
+              <div class="law-key-provisions">
+                <strong>Key Statutory Highlights</strong>
+                ${escapeHTML(law.keyProvisions)}
+              </div>
+            </div>
+
+            <div class="law-card-footer">
+              <a href="${escapeHTML(law.officialUrl)}" target="_blank" rel="noopener noreferrer" class="law-link-official" title="Open verified enactment text on Ministry of Law (bdlaws)">
+                <span>View on bdlaws</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/>
+                </svg>
+              </a>
+
+              <button class="law-btn-bookmark ${isBookmarked ? 'bookmarked' : ''}" onclick="toggleBookmarkLaw(${law.id})" title="${isBookmarked ? 'Remove Bookmark' : 'Save Law for Reference'}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="${isBookmarked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                  <path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                </svg>
+                <span>${isBookmarked ? 'Saved' : 'Save'}</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterAndRenderLaws() {
+      const search = (document.getElementById('lawSearchInput').value || '').toLowerCase().trim();
+      const sort = document.getElementById('lawSortSelect').value;
+
+      let filtered = BANGLADESH_LAWS.filter(law => {
+        const matchesCategory = (currentLawCategory === 'all') || (law.category === currentLawCategory);
+        const matchesSearch = !search || 
+          law.title.toLowerCase().includes(search) ||
+          law.banglaTitle.toLowerCase().includes(search) ||
+          law.actNo.toLowerCase().includes(search) ||
+          law.description.toLowerCase().includes(search) ||
+          law.keyProvisions.toLowerCase().includes(search);
+
+        return matchesCategory && matchesSearch;
+      });
+
+      // Sorting
+      if (sort === 'name-asc') {
+        filtered.sort((a, b) => a.title.localeCompare(b.title));
+      } else if (sort === 'name-desc') {
+        filtered.sort((a, b) => b.title.localeCompare(a.title));
+      } else {
+        // default by year
+        filtered.sort((a, b) => a.year - b.year);
+      }
+
+      renderLaws(filtered);
+    }
+
+    function resetLawFilters() {
+      document.getElementById('lawSearchInput').value = '';
+      currentLawCategory = 'all';
+      document.querySelectorAll('#lawCategoryPills .pill-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.cat === 'all');
+      });
+      document.getElementById('lawSortSelect').value = 'default';
+      renderLaws(BANGLADESH_LAWS);
+    }
+
+    /* ==========================================================================
+       6. RENDERING: 20 LAWYERS WITH FILTERING & MODAL BIO
+       ========================================================================== */
+    function renderLawyers(lawyersList) {
+      const container = document.getElementById('lawyersGridContainer');
+      const countEl = document.getElementById('lawyersFilteredCount');
+      countEl.textContent = lawyersList.length;
+
+      if (lawyersList.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 3rem; background: var(--bg-surface); border-radius: var(--radius-lg); border: 1px dashed var(--border-color);">
+            <p style="font-size: 1.1rem; color: var(--text-muted); font-weight: 600;">No matching lawyer profiles found.</p>
+            <button class="btn-secondary" style="margin-top: 1rem;" onclick="resetLawyerFilters()">Reset Directory Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = lawyersList.map(lawyer => {
+        // Initials for avatar
+        const initials = lawyer.name.split(' ').map(n => n[0]).filter(Boolean).slice(-2).join('');
+        return `
+          <div class="lawyer-card" data-id="${lawyer.id}">
+            <div>
+              <div class="lawyer-header">
+                <div class="lawyer-avatar">${escapeHTML(initials)}</div>
+                <div class="lawyer-head-meta">
+                  <h3 class="lawyer-name">${escapeHTML(lawyer.name)}</h3>
+                  <span class="lawyer-title">${escapeHTML(lawyer.title)}</span>
+                  <span class="lawyer-badge-category">${escapeHTML(lawyer.category)}</span>
+                </div>
+              </div>
+
+              <ul class="lawyer-details-list">
+                <li class="lawyer-detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  <span><strong>Experience:</strong> ${escapeHTML(lawyer.experience)} active bar practice</span>
+                </li>
+                <li class="lawyer-detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  <span><strong>Chamber:</strong> ${escapeHTML(lawyer.chamber)}</span>
+                </li>
+                <li class="lawyer-detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span><strong>Hours:</strong> ${escapeHTML(lawyer.consultationHours)}</span>
+                </li>
+                <li class="lawyer-detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <span><strong>Public Contact:</strong> ${escapeHTML(lawyer.phone)}</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <div class="lawyer-fee-box">
+                <span class="fee-label">Consultation Retainer</span>
+                <span class="fee-amount">${escapeHTML(lawyer.fee)}</span>
+              </div>
+
+              <div class="lawyer-actions">
+                <button class="btn-book-lawyer" onclick="preselectLawyerAndBook(${lawyer.id})">
+                  Book Consultation
+                </button>
+                <button class="btn-view-profile" onclick="openLawyerBioModal(${lawyer.id})">
+                  View Full Bio
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterAndRenderLawyers() {
+      const search = (document.getElementById('lawyerSearchInput').value || '').toLowerCase().trim();
+      const practice = document.getElementById('lawyerPracticeSelect').value;
+      const location = document.getElementById('lawyerLocationSelect').value;
+
+      const filtered = LAWYER_PROFILES.filter(l => {
+        const matchesPractice = (practice === 'all') || (l.category === practice);
+        const matchesLocation = (location === 'all') || (l.chamber.toLowerCase().includes(location.toLowerCase()));
+        const matchesSearch = !search ||
+          l.name.toLowerCase().includes(search) ||
+          l.category.toLowerCase().includes(search) ||
+          l.chamber.toLowerCase().includes(search) ||
+          l.court.toLowerCase().includes(search) ||
+          l.title.toLowerCase().includes(search);
+
+        return matchesPractice && matchesLocation && matchesSearch;
+      });
+
+      renderLawyers(filtered);
+    }
+
+    function resetLawyerFilters() {
+      document.getElementById('lawyerSearchInput').value = '';
+      document.getElementById('lawyerPracticeSelect').value = 'all';
+      document.getElementById('lawyerLocationSelect').value = 'all';
+      renderLawyers(LAWYER_PROFILES);
+    }
+
+    function openLawyerBioModal(lawyerId) {
+      const lawyer = LAWYER_PROFILES.find(l => l.id === lawyerId);
+      if (!lawyer) return;
+
+      const content = document.getElementById('lawyerBioContent');
+      content.innerHTML = `
+        <div style="display: flex; gap: 1.25rem; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-color);">
+          <div class="lawyer-avatar" style="width: 72px; height: 72px; font-size: 1.6rem;">
+            ${escapeHTML(lawyer.name.split(' ').map(n=>n[0]).slice(-2).join(''))}
+          </div>
+          <div>
+            <h2 style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--text-main); margin-bottom: 0.25rem;">
+              ${escapeHTML(lawyer.name)}
+            </h2>
+            <span style="font-size: 0.9rem; font-weight: 600; color: var(--text-muted);">${escapeHTML(lawyer.title)}</span>
+            <div style="margin-top: 0.45rem;">
+              <span class="lawyer-badge-category">${escapeHTML(lawyer.category)}</span>
+              <span style="margin-left: 0.5rem; font-size: 0.8rem; font-weight: 700; color: var(--gold);">★ ${lawyer.rating} Bar Standing</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <div style="background: var(--bg-surface-alt); padding: 0.85rem; border-radius: var(--radius-md);">
+            <strong style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 2px;">Court Admissions</strong>
+            <span style="font-size: 0.9rem; font-weight: 600; color: var(--text-main);">${escapeHTML(lawyer.court)}</span>
+          </div>
+          <div style="background: var(--bg-surface-alt); padding: 0.85rem; border-radius: var(--radius-md);">
+            <strong style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 2px;">Consultation Fee</strong>
+            <span style="font-size: 0.95rem; font-weight: 800; color: var(--primary);">${escapeHTML(lawyer.fee)}</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text-main);">Educational & Bar Credentials</h4>
+          <p style="font-size: 0.875rem; color: var(--text-muted);">${escapeHTML(lawyer.education)}</p>
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text-main);">Professional Background & Specialization</h4>
+          <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6;">${escapeHTML(lawyer.bio)}</p>
+        </div>
+
+        <div style="background: var(--bg-surface-alt); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.5rem; font-size: 0.85rem;">
+          <div style="margin-bottom: 0.35rem;"><strong>Chamber Address:</strong> ${escapeHTML(lawyer.chamber)}</div>
+          <div style="margin-bottom: 0.35rem;"><strong>Official Phone:</strong> ${escapeHTML(lawyer.phone)}</div>
+          <div><strong>Email:</strong> ${escapeHTML(lawyer.email)}</div>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem;">
+          <button class="btn-primary" style="flex: 1;" onclick="closeModal('lawyerBioModal'); preselectLawyerAndBook(${lawyer.id});">
+            Proceed to Book Consultation
+          </button>
+          <button class="btn-secondary" onclick="closeModal('lawyerBioModal')">
+            Close
+          </button>
+        </div>
+      `;
+
+      openModal('lawyerBioModal');
+    }
+
+    /* ==========================================================================
+       7. BOOKING SYSTEM & FORM VALIDATION
+       ========================================================================== */
+    function populateBookingDropdowns() {
+      // 1. Populate Lawyer Select inside Booking Form
+      const lawyerSelect = document.getElementById('formSelectLawyer');
+      const practiceSelect = document.getElementById('lawyerPracticeSelect');
+
+      lawyerSelect.innerHTML = '<option value="">-- Choose an Advocate (20 Available) --</option>';
+      practiceSelect.innerHTML = '<option value="all">All 20 Practice Categories</option>';
+
+      LAWYER_PROFILES.forEach(lawyer => {
+        // Add to booking form
+        const opt = document.createElement('option');
+        opt.value = lawyer.id;
+        opt.textContent = `${lawyer.name} — ${lawyer.category} (${lawyer.fee.split('/')[0].trim()})`;
+        lawyerSelect.appendChild(opt);
+
+        // Add to filter dropdown
+        const filterOpt = document.createElement('option');
+        filterOpt.value = lawyer.category;
+        filterOpt.textContent = lawyer.category;
+        practiceSelect.appendChild(filterOpt);
+      });
+    }
+
+    function setupDateConstraints() {
+      // Ensure date cannot be in the past
+      const dateInput = document.getElementById('formAppointmentDate');
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.min = today;
+    }
+
+    function preselectLawyerAndBook(lawyerId) {
+      const select = document.getElementById('formSelectLawyer');
+      select.value = lawyerId;
+      triggerLawyerPreviewUpdate(lawyerId);
+
+      // Smooth scroll to booking section
+      const bookingSec = document.getElementById('booking-section');
+      bookingSec.scrollIntoView({ behavior: 'smooth' });
+
+      // Focus on client name for smooth flow
+      setTimeout(() => {
+        document.getElementById('formClientName').focus();
+      }, 600);
+    }
+
+    function triggerLawyerPreviewUpdate(lawyerId) {
+      const preview = document.getElementById('selectedLawyerPreview');
+      const lawyer = LAWYER_PROFILES.find(l => l.id == lawyerId);
+
+      if (lawyer) {
+        document.getElementById('prevLawyerName').textContent = lawyer.name;
+        document.getElementById('prevLawyerField').textContent = `${lawyer.category} • ${lawyer.chamber}`;
+        document.getElementById('prevLawyerFee').textContent = lawyer.fee;
+        preview.classList.add('active');
+      } else {
+        preview.classList.remove('active');
+      }
+    }
+
+    function validateBangladeshPhone(phone) {
+      // Validates BD Phone formats: 013-019XXXXXXXX, +8801XXXXXXXX
+      const bdPhoneRegex = /^(?:\+?880|0)1[3-9]\d{8}$/;
+      return bdPhoneRegex.test(phone.replace(/[\s-]/g, ''));
+    }
+
+    function handleBookingSubmission(e) {
+      e.preventDefault();
+      const form = document.getElementById('consultationBookingForm');
+
+      const lawyerId = document.getElementById('formSelectLawyer').value;
+      const clientName = document.getElementById('formClientName').value.trim();
+      const clientPhone = document.getElementById('formClientPhone').value.trim();
+      const clientEmail = document.getElementById('formClientEmail').value.trim();
+      const clientCity = document.getElementById('formClientCity').value;
+      const apptDate = document.getElementById('formAppointmentDate').value;
+      const timeSlot = document.getElementById('formTimeSlot').value;
+      const caseSummary = document.getElementById('formCaseSummary').value.trim();
+      const mode = document.querySelector('input[name="consultationType"]:checked').value;
+      const docInput = document.getElementById('formDocUpload');
+      const docName = docInput.files.length > 0 ? docInput.files[0].name : 'None Attached';
+
+      let isValid = true;
+
+      // Validation Checks
+      if (!lawyerId) {
+        showFieldValidation('formSelectLawyer', false);
+        isValid = false;
+      } else {
+        showFieldValidation('formSelectLawyer', true);
+      }
+
+      if (clientName.length < 3) {
+        showFieldValidation('formClientName', false);
+        isValid = false;
+      } else {
+        showFieldValidation('formClientName', true);
+      }
+
+      if (!validateBangladeshPhone(clientPhone)) {
+        showFieldValidation('formClientPhone', false);
+        isValid = false;
+      } else {
+        showFieldValidation('formClientPhone', true);
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(clientEmail)) {
+        showFieldValidation('formClientEmail', false);
+        isValid = false;
+      } else {
+        showFieldValidation('formClientEmail', true);
+      }
+
+      if (!clientCity) {
+        showFieldValidation('formClientCity', false);
+        isValid = false;
+      } else {
+        showFieldValidation('formClientCity', true);
+      }
+
+      if (!apptDate) {
+        showFieldValidation('formAppointmentDate', false);
+        isValid = false;
+      } else {
+        showFieldValidation('formAppointmentDate', true);
+      }
+
+      if (!timeSlot) {
+        showFieldValidation('formTimeSlot', false);
+        isValid = false;
+      } else {
+        showFieldValidation('formTimeSlot', true);
+      }
+
+      if (caseSummary.length < 10) {
+        showFieldValidation('formCaseSummary', false);
+        isValid = false;
+      } else {
+        showFieldValidation('formCaseSummary', true);
+      }
+
+      if (!isValid) {
+        return;
+      }
+
+      // Generate Reference Booking Object
+      const lawyer = LAWYER_PROFILES.find(l => l.id == lawyerId);
+      const bookingId = `BDL-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+      const timestamp = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+
+      const newBooking = {
+        bookingId,
+        issuedOn: timestamp,
+        clientName,
+        clientPhone,
+        clientEmail,
+        clientCity,
+        lawyerId: lawyer.id,
+        lawyerName: lawyer.name,
+        practiceField: lawyer.category,
+        chamber: lawyer.chamber,
+        consultationFee: lawyer.fee,
+        mode,
+        apptDate,
+        timeSlot,
+        caseSummary,
+        docName,
+        status: "Confirmed (Simulated)"
+      };
+
+      // Save to localStorage
+      saveBookingToStorage(newBooking);
+
+      // Populate & Open Receipt Modal
+      populateReceiptModal(newBooking);
+      openModal('bookingReceiptModal');
+
+      // Reset form
+      form.reset();
+      triggerLawyerPreviewUpdate(null);
+      updateBookingsCounter();
+    }
+
+    function showFieldValidation(fieldId, isValid) {
+      const el = document.getElementById(fieldId);
+      if (isValid) {
+        el.classList.remove('is-invalid');
+      } else {
+        el.classList.add('is-invalid');
+      }
+    }
+
+    function saveBookingToStorage(booking) {
+      let bookings = [];
+      try {
+        bookings = JSON.parse(localStorage.getItem(STORAGE_KEY_BOOKINGS)) || [];
+      } catch (e) {
+        bookings = [];
+      }
+      bookings.unshift(booking);
+      localStorage.setItem(STORAGE_KEY_BOOKINGS, JSON.stringify(bookings));
+    }
+
+    function getSavedBookings() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY_BOOKINGS)) || [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function updateBookingsCounter() {
+      const count = getSavedBookings().length;
+      document.getElementById('bookingsCountBadge').textContent = count;
+    }
+
+    function populateReceiptModal(booking) {
+      document.getElementById('receiptBookingId').textContent = booking.bookingId;
+      document.getElementById('receiptIssuedDate').textContent = booking.issuedOn;
+      document.getElementById('receiptClientName').textContent = booking.clientName;
+      document.getElementById('receiptClientPhone').textContent = booking.clientPhone;
+      document.getElementById('receiptLawyerName').textContent = booking.lawyerName;
+      document.getElementById('receiptPracticeField').textContent = booking.practiceField;
+      document.getElementById('receiptChamber').textContent = booking.chamber;
+      document.getElementById('receiptMode').textContent = booking.mode;
+      document.getElementById('receiptDateTime').textContent = `${booking.apptDate} • ${booking.timeSlot}`;
+      document.getElementById('receiptFee').textContent = booking.consultationFee;
+    }
+
+    /* ==========================================================================
+       8. SAVED BOOKINGS MANAGER MODAL
+       ========================================================================== */
+    function openSavedBookingsModal() {
+      const bookings = getSavedBookings();
+      const listContainer = document.getElementById('savedBookingsList');
+
+      if (bookings.length === 0) {
+        listContainer.innerHTML = `
+          <div style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 0.5rem; opacity: 0.5;"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+            <p style="font-weight: 600;">No consultations booked yet.</p>
+            <p style="font-size: 0.8rem;">Select a lawyer and fill the booking form to generate a pass.</p>
+          </div>
+        `;
+      } else {
+        listContainer.innerHTML = bookings.map((b, idx) => `
+          <div style="background: var(--bg-surface-alt); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem;">
+              <span style="font-family:monospace; font-weight:700; color:var(--primary); font-size:0.9rem;">${escapeHTML(b.bookingId)}</span>
+              <span style="font-size:0.75rem; background:var(--primary-light); color:var(--primary); font-weight:700; padding:2px 8px; border-radius:var(--radius-full);">${escapeHTML(b.status)}</span>
+            </div>
+            <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-main);">${escapeHTML(b.lawyerName)}</div>
+            <div style="font-size: 0.775rem; color: var(--text-muted); margin-bottom: 0.5rem;">${escapeHTML(b.practiceField)} • ${escapeHTML(b.chamber)}</div>
+            
+            <div style="font-size: 0.825rem; color: var(--text-muted); display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem;">
+              <div><strong>Client:</strong> ${escapeHTML(b.clientName)}</div>
+              <div><strong>Phone:</strong> ${escapeHTML(b.clientPhone)}</div>
+              <div><strong>Date:</strong> ${escapeHTML(b.apptDate)}</div>
+              <div><strong>Slot:</strong> ${escapeHTML(b.timeSlot)}</div>
+              <div><strong>Mode:</strong> ${escapeHTML(b.mode)}</div>
+              <div><strong>Fee:</strong> ${escapeHTML(b.consultationFee)}</div>
+            </div>
+
+            <div style="margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+              <small style="color:var(--text-dim); font-size:0.75rem;">Recorded: ${escapeHTML(b.issuedOn)}</small>
+              <button class="btn-secondary" style="font-size:0.75rem; padding:0.25rem 0.65rem;" onclick="viewSingleReceipt(${idx})">View Pass</button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      openModal('savedBookingsModal');
+    }
+
+    function viewSingleReceipt(index) {
+      const bookings = getSavedBookings();
+      if (bookings[index]) {
+        closeModal('savedBookingsModal');
+        populateReceiptModal(bookings[index]);
+        openModal('bookingReceiptModal');
+      }
+    }
+
+    function clearAllBookings() {
+      if (confirm('Are you sure you want to delete all saved consultation appointments?')) {
+        localStorage.removeItem(STORAGE_KEY_BOOKINGS);
+        updateBookingsCounter();
+        openSavedBookingsModal();
+      }
+    }
+
+    /* ==========================================================================
+       9. LEGAL CALCULATOR & TOOLS
+       ========================================================================== */
+    function calculateCourtFee() {
+      const input = document.getElementById('calcSuitVal');
+      const val = parseFloat(input.value);
+      const out = document.getElementById('courtFeeResult');
+
+      if (isNaN(val) || val <= 0) {
+        out.style.display = 'block';
+        out.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Please enter a valid suit valuation in BDT.</span>`;
+        return;
+      }
+
+      // Ad Valorem Court Fee simplified guideline as per Court Fees Act 1870 in BD:
+      // Minimum fee: ৳200, Max fixed cap in many ordinary money suits is ৳50,000 max.
+      let fee = 0;
+      if (val <= 50000) {
+        fee = Math.max(300, val * 0.05);
+      } else if (val <= 200000) {
+        fee = 2500 + (val - 50000) * 0.03;
+      } else {
+        fee = 7000 + (val - 200000) * 0.02;
+      }
+
+      // Cap at BD statutory ceiling (~BDT 50,000 max ad valorem cap)
+      const cappedFee = Math.min(50000, fee);
+
+      out.style.display = 'block';
+      out.innerHTML = `
+        <div style="font-weight:700; color:var(--text-main); margin-bottom:4px;">
+          Estimated Court Fee: <span style="color:var(--primary); font-size:1.05rem;">৳ ${Math.round(cappedFee).toLocaleString()} BDT</span>
+        </div>
+        <div style="color:var(--text-muted); font-size:0.775rem;">
+          Calculated pursuant to the Court Fees Act, 1870 (Schedule I) ad-valorem scale. Subject to actual stamp duty and advocate verification.
+        </div>
+      `;
+    }
+
+    /* ==========================================================================
+       10. EVENT LISTENERS & MODAL UTILITIES
+       ========================================================================== */
+    function setupEventListeners() {
+      // Search Laws (Debounced)
+      document.getElementById('lawSearchInput').addEventListener('input', debounce(filterAndRenderLaws, 200));
+      document.getElementById('lawSortSelect').addEventListener('change', filterAndRenderLaws);
+
+      // Law Category Pills
+      document.querySelectorAll('#lawCategoryPills .pill-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#lawCategoryPills .pill-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentLawCategory = btn.dataset.cat;
+          filterAndRenderLaws();
+        });
+      });
+
+      // Search Lawyers
+      document.getElementById('lawyerSearchInput').addEventListener('input', debounce(filterAndRenderLawyers, 200));
+      document.getElementById('lawyerPracticeSelect').addEventListener('change', filterAndRenderLawyers);
+      document.getElementById('lawyerLocationSelect').addEventListener('change', filterAndRenderLawyers);
+
+      // Lawyer Picker change in Booking Form
+      document.getElementById('formSelectLawyer').addEventListener('change', (e) => {
+        triggerLawyerPreviewUpdate(e.target.value);
+      });
+
+      // Radio consultation mode styles
+      const radioChamber = document.getElementById('radioLabelChamber');
+      const radioOnline = document.getElementById('radioLabelOnline');
+      document.querySelectorAll('input[name="consultationType"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          if (e.target.value === 'Chamber In-Person') {
+            radioChamber.classList.add('checked');
+            radioOnline.classList.remove('checked');
+          } else {
+            radioOnline.classList.add('checked');
+            radioChamber.classList.remove('checked');
+          }
+        });
+      });
+
+      // Booking Form Submit
+      document.getElementById('consultationBookingForm').addEventListener('submit', handleBookingSubmission);
+
+      // Open Saved Consultations
+      document.getElementById('openBookingsBtn').addEventListener('click', openSavedBookingsModal);
+
+      // Hero Quick Search Input
+      document.getElementById('heroQuickSearchInput').addEventListener('input', (e) => {
+        const val = e.target.value;
+        document.getElementById('lawSearchInput').value = val;
+        document.getElementById('lawyerSearchInput').value = val;
+        filterAndRenderLaws();
+        filterAndRenderLawyers();
+      });
+
+      // Mobile Menu Toggle
+      const mobileBtn = document.getElementById('mobileMenuBtn');
+      const navLinks = document.getElementById('navLinks');
+      mobileBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('mobile-open');
+      });
+
+      // Close mobile menu on nav link click
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('mobile-open');
+        });
+      });
+
+      // Close modal on backdrop click
+      document.querySelectorAll('.modal-backdrop').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            closeModal(modal.id);
+          }
+        });
+      });
+
+      // Escape key to close modal
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          document.querySelectorAll('.modal-backdrop.active').forEach(modal => {
+            closeModal(modal.id);
+          });
+        }
+      });
+    }
+
+    function quickFilterAction(keyword) {
+      document.getElementById('lawSearchInput').value = keyword;
+      document.getElementById('lawyerSearchInput').value = keyword;
+      filterAndRenderLaws();
+      filterAndRenderLawyers();
+
+      const sec = document.getElementById('laws-section');
+      sec.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function debounce(fn, delay) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn.apply(this, args), delay);
+      };
+    }
+
+    function escapeHTML(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+  </script>
+</body>
+</html>
